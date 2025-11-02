@@ -6,15 +6,15 @@ import lombok.Data;
 @Data
 public class Grid {
 
-    private static Integer X;
-    private static Integer Y;
+    public static Integer TILES_X = 30;
+    public static Integer TILES_Y = 30;
     private HashMap<CellKey, Tile> tiles = new HashMap<>();
 
     private static Grid instance;
 
     private Grid() {
-        for (int x = 0; x < Grid.X; x++) {
-            for (int y = 0; y < Grid.Y; y++) {
+        for (int x = 0; x < Grid.TILES_X; x++) {
+            for (int y = 0; y < Grid.TILES_Y; y++) {
                 tiles.put(new CellKey(x, y), new Tile(x, y));
             }
         }

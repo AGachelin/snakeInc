@@ -1,0 +1,47 @@
+package org.snakeinc.snake.ui;
+
+import java.awt.BasicStroke;
+import java.awt.Color;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
+import lombok.AllArgsConstructor;
+import org.snakeinc.snake.model.Apple;
+import org.snakeinc.snake.model.GameObject;
+import org.snakeinc.snake.model.Snake;
+import org.snakeinc.snake.model.Tile;
+
+@AllArgsConstructor
+public class TileComponent implements Drawable {
+
+    private Tile tile;
+    private int upperPixelX;
+    private int upperPixelY;
+
+    public void drawRectangle(Graphics g) {
+        g.fillRect(upperPixelX, upperPixelY, GamePanel.TILE_PIXEL_SIZE, GamePanel.TILE_PIXEL_SIZE);
+        // Contour du rectangle
+        Graphics2D g2 = (Graphics2D) g; // pour pouvoir définir l'épaisseur du contour
+        g2.setColor(Color.GREEN.darker()); // contour plus foncé
+        g2.setStroke(new BasicStroke(2));  // épaisseur du contour (optionnel)
+        g2.drawRect(upperPixelX, upperPixelY, GamePanel.TILE_PIXEL_SIZE, GamePanel.TILE_PIXEL_SIZE);
+    }
+
+    public void drawOval(Graphics g) {
+        g.fillOval(upperPixelX, upperPixelY, GamePanel.TILE_PIXEL_SIZE, GamePanel.TILE_PIXEL_SIZE);
+    }
+
+    @Override
+    public void draw(Graphics g) {
+        for (GameObject object : tile.getGameObjectsInTile()) {
+            if (object instanceof Apple) {
+                g.setColor(Color.RED);
+                drawOval(g);
+            }
+            if (object instanceof Snake) {
+                g.setColor(Color.GREEN);
+                drawRectangle(g);
+            }
+        }
+    }
+
+}

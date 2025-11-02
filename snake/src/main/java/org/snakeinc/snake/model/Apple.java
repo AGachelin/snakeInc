@@ -2,12 +2,11 @@ package org.snakeinc.snake.model;
 
 import java.util.Random;
 import lombok.Getter;
-import org.snakeinc.snake.ui.GamePanel;
 
-public class Apple {
+public class Apple implements GameObject {
 
     @Getter
-    private Tile position;
+    private Tile tile;
     private final Random random;
 
     public Apple() {
@@ -16,9 +15,12 @@ public class Apple {
     }
 
     public void updateLocation() {
-        position = new Tile(random.nextInt(0, (GamePanel.GAME_WIDTH / GamePanel.TILE_SIZE)),
-                random.nextInt(0, (GamePanel.GAME_HEIGHT / GamePanel.TILE_SIZE)));
-
+        Tile newTile = Grid.getInstance().getTile(random.nextInt(0, Grid.TILES_X), random.nextInt(0, Grid.TILES_Y));
+        if (tile != null) {
+            tile.getGameObjectsInTile().remove(this);
+        }
+        newTile.getGameObjectsInTile().add(this);
+        this.tile = newTile;
     }
 
 }

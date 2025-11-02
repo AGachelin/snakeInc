@@ -11,24 +11,25 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import javax.swing.JPanel;
 import javax.swing.Timer;
-import org.snakeinc.snake.model.Apple;
+import org.snakeinc.snake.exception.OutOfPlayException;
+import org.snakeinc.snake.exception.SelfCollisionException;
+import org.snakeinc.snake.model.Basket;
+import org.snakeinc.snake.model.Grid;
 import org.snakeinc.snake.model.Snake;
 
 public class GamePanel extends JPanel implements ActionListener, KeyListener {
 
-    public static final int TILE_SIZE = 20;
-    public static final int N_TILES_X = 20;
-    public static final int N_TILES_Y = 20;
-    public static final int GAME_WIDTH = TILE_SIZE * N_TILES_X;
-    public static final int GAME_HEIGHT = TILE_SIZE * N_TILES_Y;
+    public static final int TILE_PIXEL_SIZE = 20;
+    public static final int GAME_PIXEL_WIDTH = TILE_PIXEL_SIZE * Grid.TILES_X;
+    public static final int GAME_PIXEL_HEIGHT = TILE_PIXEL_SIZE * Grid.TILES_Y;
+
     private Timer timer;
-    private SnakeComponent snakeComponent;
-    private AppleComponent appleComponent;
+    private Snake snake;
     private boolean running = false;
     private char direction = 'R';
 
     public GamePanel() {
-        this.setPreferredSize(new Dimension(GAME_WIDTH, GAME_HEIGHT));
+        this.setPreferredSize(new Dimension(GAME_PIXEL_WIDTH, GAME_PIXEL_HEIGHT));
         this.setBackground(Color.BLACK);
         this.setFocusable(true);
         this.addKeyListener(this);
@@ -36,8 +37,8 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
     }
 
     private void startGame() {
-        snakeComponent = new SnakeComponent(new Snake());
-        appleComponent = new AppleComponent(new Apple());
+        snake = new Snake();
+        Basket.getInstance().refillIfEmptyOrPartial(3);
         timer = new Timer(100, this);
         timer.start();
         running = true;
@@ -47,8 +48,7 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
         if (running) {
-            appleComponent.draw(g);
-            snakeComponent.draw(g);
+            GridComponent.getInstance().draw(g);
         } else {
             gameOver(g);
         }
@@ -58,27 +58,19 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
         g.setColor(Color.RED);
         g.setFont(new Font("Arial", Font.BOLD, 20));
         FontMetrics metrics = getFontMetrics(g.getFont());
-        g.drawString("Game Over", (GAME_WIDTH - metrics.stringWidth("Game Over")) / 2, GAME_HEIGHT / 2);
-    }
-
-    private void checkCollision() {
-        // Vérifie si le serpent se mord ou sort de l'écran
-        if (snakeComponent.getSnake().checkSelfCollision() || snakeComponent.getSnake().checkWallCollision()) {
-            running = false;
-            timer.stop();
-        }
-        // Vérifie si le serpent mange la pomme
-        if (snakeComponent.getSnake().getHead().equals(appleComponent.getApple().getPosition())) {
-            snakeComponent.getSnake().eat(appleComponent.getApple());
-            appleComponent.getApple().updateLocation();
-        }
+        g.drawString("Game Over", (GAME_PIXEL_WIDTH - metrics.stringWidth("Game Over")) / 2, GAME_PIXEL_HEIGHT / 2);
     }
 
     @Override
     public void actionPerformed(ActionEvent e) {
         if (running) {
-            snakeComponent.getSnake().move(direction);
-            checkCollision();
+            try {
+                snake.move(direction);
+                Basket.getInstance().refillIfEmptyOrPartial(3);
+            } catch (OutOfPlayException | SelfCollisionException exception) {
+                timer.stop();
+                running = false;
+            }
         }
         repaint();
     }

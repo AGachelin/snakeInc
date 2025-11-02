@@ -1,14 +1,18 @@
 package org.snakeinc.snake.model;
 
 import java.util.ArrayList;
+import org.snakeinc.snake.exception.OutOfPlayException;
+import org.snakeinc.snake.exception.SelfCollisionException;
 
-public class Snake {
+public class Snake implements GameObject {
 
     private final ArrayList<Tile> body;
 
     public Snake() {
         body = new ArrayList<>();
-        body.add(Grid.getInstance().getTile(5,5)); // La tête du serpent
+        Tile head = Grid.getInstance().getTile(5, 5);
+        body.add(head);
+        head.getGameObjectsInTile().add(this);
     }
 
     public ArrayList<Tile> getBody() {
@@ -20,42 +24,45 @@ public class Snake {
     }
 
     public void eat(Apple apple) {
-        body.add(apple.getPosition());
+        body.add(apple.getTile());
+        apple.getTile().getGameObjectsInTile().add(this);
+        Basket.getInstance().removeApple(apple);
     }
 
-    public void move(char direction) {
-        Tile newHead = getHead().copy();
-
+    public void move(char direction) throws OutOfPlayException, SelfCollisionException {
+        int x = getHead().getX();
+        int y = getHead().getY();
         switch (direction) {
             case 'U':
-                newHead.setY(newHead.getY() - 1);
+                y--;
                 break;
             case 'D':
-                newHead.setY(newHead.getY() + 1);
+                y++;
                 break;
             case 'L':
-                newHead.setX(newHead.getX() - 1);
+                x--;
                 break;
             case 'R':
-                newHead.setX(newHead.getX() + 1);
+                x++;
                 break;
         }
-
+        Tile newHead = Grid.getInstance().getTile(x, y);
+        if (newHead == null) {
+            throw new OutOfPlayException();
+        }
+        if (newHead.gameObjectsInTile.contains(this)) {
+            throw new SelfCollisionException();
+        }
+        newHead.getGameObjectsInTile().add(this);
         body.addFirst(newHead);
-        body.removeLast(); // Supprime le dernier segment pour simuler le déplacement
-    }
-
-    public boolean checkSelfCollision() {
-        for (int i = 1; i < body.size(); i++) {
-            if (getHead().equals(body.get(i))) {
-                return true;
+        body.getLast().getGameObjectsInTile().remove(this);
+        body.removeLast();
+        // Eat apples :
+        for (GameObject gameObject : new ArrayList<>(newHead.getGameObjectsInTile())) {
+            if (gameObject instanceof Apple) {
+                this.eat((Apple) gameObject);
             }
         }
-        return false;
-    }
 
-    public boolean checkWallCollision() {
-        return !getHead().isInsideGame();
     }
-
 }
