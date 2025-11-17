@@ -38,7 +38,7 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
     }
 
     private void startGame() {
-        game = new Game();
+        game = new Game(null);
         timer = new Timer(100, this);
         timer.start();
         running = true;

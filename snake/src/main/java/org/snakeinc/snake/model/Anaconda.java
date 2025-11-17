@@ -1,5 +1,4 @@
 package org.snakeinc.snake.model;
-import org.snakeinc.snake.model.Snake;
 public final class Anaconda extends Snake{
     Anaconda(AppleEatenListener listener, Grid grid) {
         super(listener, grid, "Gray");

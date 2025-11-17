@@ -2,26 +2,27 @@ package org.snakeInc.snake;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
+import org.snakeinc.snake.exception.MalnutritionException;
 import org.snakeinc.snake.exception.OutOfPlayException;
 import org.snakeinc.snake.exception.SelfCollisionException;
 import org.snakeinc.snake.model.Game;
 import org.snakeinc.snake.model.Direction;
 public class SnakeTest {
 
-    Game game = new Game();
+    Game game = new Game(true);
 
     @Test
-    public void snakeEatApplesAfterMove_ReturnsCorrectBodySize() throws OutOfPlayException, SelfCollisionException {
+    public void snakeEatApplesAfterMove_ReturnsCorrectBodySize() throws OutOfPlayException, SelfCollisionException, MalnutritionException {
         game.getBasket().addApple(game.getGrid().getTile(5, 4));
-        game.getSnake().move(Direction.UP);
-        Assertions.assertEquals(2, game.getSnake().getSize());
+        game.iterate(Direction.UP);
+        Assertions.assertEquals(2, game.getSnakeSize());
     }
 
     @Test
-    void snakeMovesUp_ReturnCorrectHead() throws OutOfPlayException, SelfCollisionException {
-        game.getSnake().move(Direction.UP);
-        Assertions.assertEquals(5, game.getSnake().getHead().getX());
-        Assertions.assertEquals(4, game.getSnake().getHead().getY());
+    void snakeMovesUp_ReturnCorrectHead() throws OutOfPlayException, SelfCollisionException, MalnutritionException {
+        game.iterate(Direction.UP);
+        Assertions.assertEquals(5, game.getSnakeHead().getX());
+        Assertions.assertEquals(4, game.getSnakeHead().getY());
     }
 
     @Test
@@ -33,16 +34,16 @@ public class SnakeTest {
         });
     }
     @Test
-    void testOutOfPlay() {
+    void testSelfCollision() {
         Assertions.assertThrows(SelfCollisionException.class, () -> {
             game.getBasket().addApple(game.getGrid().getTile(5, 4));
-            game.getSnake().move(Direction.UP);
+            game.iterate(Direction.UP);
             game.getBasket().addApple(game.getGrid().getTile(6, 4));
-            game.getSnake().move(Direction.RIGHT);
+            game.iterate(Direction.RIGHT);
             game.getBasket().addApple(game.getGrid().getTile(6, 5));
-            game.getSnake().move(Direction.DOWN);
+            game.iterate(Direction.DOWN);
             game.getBasket().addApple(game.getGrid().getTile(5, 5));
-            game.getSnake().move(Direction.LEFT);
+            game.iterate(Direction.LEFT);
         });
     }
 
