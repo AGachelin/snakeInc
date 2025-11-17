@@ -3,7 +3,6 @@ package org.snakeinc.snake.model;
 import lombok.Getter;
 import org.snakeinc.snake.exception.OutOfPlayException;
 import org.snakeinc.snake.exception.SelfCollisionException;
-import org.snakeinc.snake.model.Direction;
 
 @Getter
 public class Game {
