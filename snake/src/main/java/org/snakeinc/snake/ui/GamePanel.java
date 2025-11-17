@@ -58,7 +58,8 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
         g.setColor(Color.RED);
         g.setFont(new Font("Arial", Font.BOLD, 20));
         FontMetrics metrics = getFontMetrics(g.getFont());
-        g.drawString("Game Over", (GAME_PIXEL_WIDTH - metrics.stringWidth("Game Over")) / 2, GAME_PIXEL_HEIGHT / 2);
+        String end = String.format("Game Over, score : %d", game.getScore());
+        g.drawString(end, (GAME_PIXEL_WIDTH - metrics.stringWidth(end)) / 2, GAME_PIXEL_HEIGHT / 2);
     }
 
     @Override

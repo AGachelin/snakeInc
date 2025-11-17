@@ -53,5 +53,8 @@ public class Game {
         return snake.getHead();
     }
 
+    public int getScore(){
+        return snake.score;
+    }
 
 }

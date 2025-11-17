@@ -17,6 +17,7 @@ abstract sealed class Snake permits Anaconda, Python, BoaConstrictor{
     private final Grid grid;
     @Getter
     protected final String color;
+    static int score = 0;
 
 
     public Snake(FoodEatenListener listener, Grid grid, String color) {
@@ -87,5 +88,4 @@ abstract sealed class Snake permits Anaconda, Python, BoaConstrictor{
         body.removeLast();
 
     }
-
 }

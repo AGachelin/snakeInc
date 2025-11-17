@@ -44,7 +44,7 @@ public class CellUI {
             Food food = cell.getFood();
             if(food.getClass().getSimpleName().equals("Apple")) {
                 if(food.isPoisoned){
-                    g.setColor(Color.PINK.darker());
+                    g.setColor(Color.MAGENTA);
                 }
                 else{
                     g.setColor(Color.RED);
