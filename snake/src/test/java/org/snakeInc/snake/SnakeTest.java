@@ -25,7 +25,7 @@ public class SnakeTest {
     }
 
     @Test
-    void snakeMovesOutOfGame_ThrowsOutOfPlay() throws OutOfPlayException, SelfCollisionException {
+    void snakeMovesOutOfGame_ThrowsOutOfPlay() {
         Assertions.assertThrows(OutOfPlayException.class, () -> {
             for(int i = 0; i<6;i++) {
                 game.iterate('U');
@@ -33,7 +33,7 @@ public class SnakeTest {
         });
     }
     @Test
-    void testOutOfPlay() throws OutOfPlayException, SelfCollisionException {
+    void testOutOfPlay() {
         Assertions.assertThrows(SelfCollisionException.class, () -> {
             game.getBasket().addApple(game.getGrid().getTile(5, 4));
             game.getSnake().move('U');
