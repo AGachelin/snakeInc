@@ -29,7 +29,7 @@ C'est une classe contenant différents objets, exemple : ArrayList dans Basket
 ## Exceptions
 C'est ce qui est "renvoyé" lorsqu'il y a une erreur durant l'exécution
 ## Functional interfaces / Lambda
-Les lambdas sont des fonctions anonymes, qui ne sont utilisées qu'une seule fois lors de leur instantiation
+Les lambdas sont des fonctions anonymes, qui ne sont utilisées qu'une seule fois lors de leur instantiation, exemple : dans la méthode Game() de Game
 Les interfaces fonctionnelles sont des interfaces ne contenant qu'une méthode et pouvant donc être implémentées dans une lambda
 ## Lombok : https://projectlombok.org/
 C'est une librairie java permettant de générer automatiquement les getters, setters, toString et autres.
