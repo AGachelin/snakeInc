@@ -34,20 +34,20 @@ public class Snake {
         onAppleEatenListener.onAppleEaten(apple, cell);
     }
 
-    public void move(char direction) throws OutOfPlayException, SelfCollisionException {
+    public void move(Direction direction) throws OutOfPlayException, SelfCollisionException {
         int x = getHead().getX();
         int y = getHead().getY();
         switch (direction) {
-            case 'U':
+            case Direction.UP:
                 y--;
                 break;
-            case 'D':
+            case Direction.DOWN:
                 y++;
                 break;
-            case 'L':
+            case Direction.LEFT:
                 x--;
                 break;
-            case 'R':
+            case Direction.RIGHT:
                 x++;
                 break;
         }
