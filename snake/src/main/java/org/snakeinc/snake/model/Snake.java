@@ -13,19 +13,28 @@ abstract sealed class Snake permits Anaconda, Python, BoaConstrictor{
     @Getter
     private final ArrayList<Cell> body;
     @Getter
-    private final AppleEatenListener onAppleEatenListener;
+    private final FoodEatenListener onFoodEatenListener;
     private final Grid grid;
     @Getter
     protected final String color;
 
 
-    public Snake(AppleEatenListener listener, Grid grid, String color) {
+    public Snake(FoodEatenListener listener, Grid grid, String color) {
         this.body = new ArrayList<>();
-        this.onAppleEatenListener = listener;
+        this.onFoodEatenListener = listener;
         this.grid = grid;
         Cell head = grid.getTile(GameParams.SNAKE_DEFAULT_X, GameParams.SNAKE_DEFAULT_Y);
         head.addSnake(this);
         body.add(head);
+
+        Cell cell1 = grid.getTile(GameParams.SNAKE_DEFAULT_X - 1, GameParams.SNAKE_DEFAULT_Y);
+        cell1.addSnake(this);
+        body.add(cell1);
+
+        Cell cell2 = grid.getTile(GameParams.SNAKE_DEFAULT_X - 2, GameParams.SNAKE_DEFAULT_Y);
+        cell2.addSnake(this);
+        body.add(cell2);
+
         this.color = color;
     }
 
@@ -37,7 +46,7 @@ abstract sealed class Snake permits Anaconda, Python, BoaConstrictor{
         return body.getFirst();
     }
 
-    public abstract void eat(Apple apple, Cell cell);
+    public abstract void eat(Food food, Cell cell) throws MalnutritionException;
 
     public void move(Direction direction) throws OutOfPlayException, SelfCollisionException, MalnutritionException {
         int x = getHead().getX();
@@ -65,8 +74,8 @@ abstract sealed class Snake permits Anaconda, Python, BoaConstrictor{
         }
 
         // Eat apple :
-        if (newHead.containsAnApple()) {
-            this.eat(newHead.getApple(), newHead);
+        if (newHead.containsFood()) {
+            this.eat(newHead.getFood(), newHead);
             return;
         }
 

@@ -23,18 +23,18 @@ public class Game {
         basket.refillIfNeeded(1);
         var random = new Random();
         if(test) {
-            this.snake = new Anaconda((apple, cell) -> basket.removeAppleInCell(apple, cell), grid);
+            this.snake = new Anaconda((food, cell) -> basket.removeFoodInCell(food, cell), grid);
         }
         else {
             switch (random.nextInt(0, 3)) {
                 case 0:
-                    this.snake = new Anaconda((apple, cell) -> basket.removeAppleInCell(apple, cell), grid);
+                    this.snake = new Anaconda((food, cell) -> basket.removeFoodInCell(food, cell), grid);
                     break;
                 case 1:
-                    this.snake = new BoaConstrictor((apple, cell) -> basket.removeAppleInCell(apple, cell), grid);
+                    this.snake = new BoaConstrictor((food, cell) -> basket.removeFoodInCell(food, cell), grid);
                     break;
                 case 2:
-                    this.snake = new Python((apple, cell) -> basket.removeAppleInCell(apple, cell), grid);
+                    this.snake = new Python((food, cell) -> basket.removeFoodInCell(food, cell), grid);
                     break;
             }
         }

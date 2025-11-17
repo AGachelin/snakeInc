@@ -5,10 +5,10 @@ import lombok.Getter;
 import java.util.Random;
 
 @Getter
-public final class Apple extends Food{
-    public Apple() {
+public final class Brocoli extends Food{
+    public Brocoli() {
         var Random = new Random();
-        this.isPoisoned = Random.nextBoolean();
+        this.isSteamed = Random.nextBoolean();
     }
 
 }

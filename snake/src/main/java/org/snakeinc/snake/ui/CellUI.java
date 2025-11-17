@@ -6,6 +6,7 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import lombok.AllArgsConstructor;
 import org.snakeinc.snake.model.Cell;
+import org.snakeinc.snake.model.Food;
 
 @AllArgsConstructor
 public class CellUI {
@@ -39,8 +40,24 @@ public class CellUI {
 
     public void draw(Graphics g) {
 
-        if (cell.containsAnApple()) {
-            g.setColor(Color.RED);
+        if (cell.containsFood()) {
+            Food food = cell.getFood();
+            if(food.getClass().getSimpleName().equals("Apple")) {
+                if(food.isPoisoned){
+                    g.setColor(Color.PINK.darker());
+                }
+                else{
+                    g.setColor(Color.RED);
+                }
+            }
+            else{
+                if(food.isSteamed){
+                    g.setColor(Color.ORANGE.darker());
+                }
+                else{
+                    g.setColor(Color.YELLOW);
+                }
+            }
             drawOval(g);
         }
         if (cell.containsASnake()) {

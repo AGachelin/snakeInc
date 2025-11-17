@@ -13,7 +13,7 @@ public class SnakeTest {
 
     @Test
     public void snakeEatApplesAfterMove_ReturnsCorrectBodySize() throws OutOfPlayException, SelfCollisionException, MalnutritionException {
-        game.getBasket().addApple(game.getGrid().getTile(5, 4));
+        game.getBasket().addFood(game.getGrid().getTile(5, 4));
         game.iterate(Direction.UP);
         Assertions.assertEquals(2, game.getSnakeSize());
     }
@@ -36,13 +36,13 @@ public class SnakeTest {
     @Test
     void testSelfCollision() {
         Assertions.assertThrows(SelfCollisionException.class, () -> {
-            game.getBasket().addApple(game.getGrid().getTile(5, 4));
+            game.getBasket().addFood(game.getGrid().getTile(5, 4));
             game.iterate(Direction.UP);
-            game.getBasket().addApple(game.getGrid().getTile(6, 4));
+            game.getBasket().addFood(game.getGrid().getTile(6, 4));
             game.iterate(Direction.RIGHT);
-            game.getBasket().addApple(game.getGrid().getTile(6, 5));
+            game.getBasket().addFood(game.getGrid().getTile(6, 5));
             game.iterate(Direction.DOWN);
-            game.getBasket().addApple(game.getGrid().getTile(5, 5));
+            game.getBasket().addFood(game.getGrid().getTile(5, 5));
             game.iterate(Direction.LEFT);
         });
     }
