@@ -7,12 +7,12 @@ L'encapsulation est le fait de regrouper des données et/ou des fonctions dans u
 Une propriété est une donnée associée à une classe, exemple : x dans Cell  
 Un getter est une fonction permettant de récupérer une propriété, exemple : @Getter avec x dans Cell
 Un setter est une fonction permettant de modifier une propriété, exemple : setX dans Cell  
-final désigne les variables de classe, qui sont définies lors de la création du premier objet de la classe et seront ensuite partagées entre toutes les instances, exemple : body dans Snake
+final empêche les modifications à l'élément affecté ; dans le cas d'une variable, il permet la définition d'une constante : body dans Snake
 ## Instantiation of objects, Constructors
 L'instantiation d'un objet est sa création  
 Un constructeur est une fonction dans une classe servant à l'instantiation d'un objet  
 ## Static fields, static methods. What are the particularity of "static" ?
-Une variable ou une propriété statique ne change pas après sa création  
+Une variable ou une propriété statique est partagée entre toutes les instances de la classe 
 Une méthode statique est une méthode affectant la classe et non une instance, exemple : createAppleInCell
 ## Composition
 C'est le fait d'inclure des classes dans d'autres classes, exemple : Basket qui contient des Apple
