@@ -15,6 +15,9 @@ public class Cell {
     @Getter
     private int y;
 
+    @Getter
+    private String color;
+
     Snake snake;
     Apple apple;
 
@@ -29,6 +32,7 @@ public class Cell {
 
     public void addSnake(Snake snake) {
         this.snake = snake;
+        this.color = snake.getColor();
     }
 
     public void removeSnake() {

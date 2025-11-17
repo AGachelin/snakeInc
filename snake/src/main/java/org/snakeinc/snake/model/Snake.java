@@ -1,23 +1,32 @@
 package org.snakeinc.snake.model;
 
 import java.util.ArrayList;
+
+import lombok.Getter;
 import org.snakeinc.snake.GameParams;
+import org.snakeinc.snake.exception.MalnutritionException;
 import org.snakeinc.snake.exception.OutOfPlayException;
 import org.snakeinc.snake.exception.SelfCollisionException;
 
-public class Snake {
 
+abstract sealed class Snake permits Anaconda, Python, BoaConstrictor{
+    @Getter
     private final ArrayList<Cell> body;
+    @Getter
     private final AppleEatenListener onAppleEatenListener;
     private final Grid grid;
+    @Getter
+    protected final String color;
 
-    public Snake(AppleEatenListener listener, Grid grid) {
+
+    public Snake(AppleEatenListener listener, Grid grid, String color) {
         this.body = new ArrayList<>();
         this.onAppleEatenListener = listener;
         this.grid = grid;
         Cell head = grid.getTile(GameParams.SNAKE_DEFAULT_X, GameParams.SNAKE_DEFAULT_Y);
         head.addSnake(this);
         body.add(head);
+        this.color = color;
     }
 
     public int getSize() {
@@ -28,13 +37,9 @@ public class Snake {
         return body.getFirst();
     }
 
-    public void eat(Apple apple, Cell cell) {
-        body.addFirst(cell);
-        cell.addSnake(this);
-        onAppleEatenListener.onAppleEaten(apple, cell);
-    }
+    public abstract void eat(Apple apple, Cell cell);
 
-    public void move(Direction direction) throws OutOfPlayException, SelfCollisionException {
+    public void move(Direction direction) throws OutOfPlayException, SelfCollisionException, MalnutritionException {
         int x = getHead().getX();
         int y = getHead().getY();
         switch (direction) {

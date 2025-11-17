@@ -1,24 +1,38 @@
 package org.snakeinc.snake.model;
 
 import lombok.Getter;
+import org.snakeinc.snake.exception.MalnutritionException;
 import org.snakeinc.snake.exception.OutOfPlayException;
 import org.snakeinc.snake.exception.SelfCollisionException;
+
+import java.util.Random;
 
 @Getter
 public class Game {
 
     private final Grid grid;
     private final Basket basket;
-    private final Snake snake;
+    private Snake snake;
 
     public Game() {
         grid = new Grid();
         basket = new Basket(grid);
         basket.refillIfNeeded(1);
-        snake = new Snake((apple, cell) -> basket.removeAppleInCell(apple,cell), grid);
+        var random = new Random();
+        switch (random.nextInt(0, 3)) {
+            case 0:
+                this.snake = new Anaconda((apple, cell) -> basket.removeAppleInCell(apple, cell), grid);
+                break;
+            case 1:
+                this.snake = new BoaConstrictor((apple, cell) -> basket.removeAppleInCell(apple, cell), grid);
+                break;
+            case 2:
+                this.snake = new Python((apple, cell) -> basket.removeAppleInCell(apple, cell), grid);
+                break;
+        }
     }
 
-    public void iterate(Direction direction) throws OutOfPlayException, SelfCollisionException {
+    public void iterate(Direction direction) throws OutOfPlayException, SelfCollisionException, MalnutritionException {
         snake.move(direction);
         basket.refillIfNeeded(1);
     }
