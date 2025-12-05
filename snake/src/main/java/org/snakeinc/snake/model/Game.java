@@ -44,6 +44,9 @@ public class Game {
     public void iterate(Direction direction) throws OutOfPlayException, SelfCollisionException, MalnutritionException {
         snake.move(direction);
         basket.refillIfNeeded(1, getSnakeHead());
+        if(basket.isCrazy()){
+            basket.move(getSnakeHead());
+        }
     }
 
     public Integer getSnakeSize() {
