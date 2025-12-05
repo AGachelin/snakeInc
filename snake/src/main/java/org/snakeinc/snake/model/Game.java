@@ -57,4 +57,16 @@ public class Game {
         return snake.score;
     }
 
+    public int getSnakeState(){
+        switch(snake.getState()){
+            case Poisoned :
+                return 0;
+            case PermanentlyDamaged:
+                return 1;
+            case GoodHealth:
+                return 2;
+        };
+        return 2;
+    }
+
 }

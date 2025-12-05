@@ -7,18 +7,19 @@ import org.snakeinc.snake.GameParams;
 import org.snakeinc.snake.exception.MalnutritionException;
 import org.snakeinc.snake.exception.OutOfPlayException;
 import org.snakeinc.snake.exception.SelfCollisionException;
-
+import org.snakeinc.snake.model.State;
 
 abstract sealed class Snake permits Anaconda, Python, BoaConstrictor{
     @Getter
     private final ArrayList<Cell> body;
     @Getter
     private final FoodEatenListener onFoodEatenListener;
+    @Getter
+    protected State state = State.GoodHealth;
     private final Grid grid;
     @Getter
     protected final String color;
     static int score = 0;
-
 
     public Snake(FoodEatenListener listener, Grid grid, String color) {
         this.body = new ArrayList<>();
@@ -47,7 +48,19 @@ abstract sealed class Snake permits Anaconda, Python, BoaConstrictor{
         return body.getFirst();
     }
 
-    public abstract void eat(Food food, Cell cell) throws MalnutritionException;
+    public void eat(Food food, Cell cell) throws MalnutritionException {
+        if(food.isPoisoned){
+            if(state == State.GoodHealth){
+                state=State.Poisoned;
+            }
+            else{
+                state = State.PermanentlyDamaged;
+            }
+        }
+        else if(food.getClass().getSimpleName().equals("Brocoli")){
+            state=State.GoodHealth;
+        }
+    };
 
     public void move(Direction direction) throws OutOfPlayException, SelfCollisionException, MalnutritionException {
         int x = getHead().getX();

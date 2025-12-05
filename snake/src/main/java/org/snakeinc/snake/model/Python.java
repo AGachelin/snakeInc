@@ -7,6 +7,7 @@ public final class Python extends Snake{
         super(listener, grid, "Green");
     }
     public void eat(Food food, Cell cell) throws MalnutritionException{
+        super.eat(food, cell);
         if(food.getClass().getSimpleName().equals("Brocoli")) {
             if(!food.isSteamed){score+=1;}
             if(super.getSize()-3<=0){

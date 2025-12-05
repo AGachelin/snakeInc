@@ -7,6 +7,7 @@ public final class Anaconda extends Snake{
         super(listener, grid, "Gray");
     }
     public void eat(Food food, Cell cell) throws MalnutritionException{
+        super.eat(food, cell);
         if(food.getClass().getSimpleName().equals("Brocoli")) {
             if(!food.isSteamed){score+=1;}
             if(super.getSize()-2<=0){

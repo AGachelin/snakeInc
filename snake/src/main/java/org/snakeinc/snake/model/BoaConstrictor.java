@@ -6,6 +6,7 @@ public final class BoaConstrictor extends Snake{
         super(listener, grid, "Blue");
     }
     public void eat(Food food, Cell cell) throws MalnutritionException{
+        super.eat(food, cell);
         if(food.getClass().getSimpleName().equals("Apple")) {
             if(!food.isPoisoned){score+=2;}
             if(super.getSize()<0){
