@@ -15,3 +15,4 @@ public class SnakeApp {
         frame.setResizable(false);
     }
 }
+// https://github.com/sr-julien/snakeInc/issues/20?issue=sr-julien%7CsnakeInc%7C24

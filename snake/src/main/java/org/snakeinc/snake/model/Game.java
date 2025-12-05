@@ -1,6 +1,7 @@
 package org.snakeinc.snake.model;
 
 import lombok.Getter;
+import org.snakeinc.snake.GameParams;
 import org.snakeinc.snake.exception.MalnutritionException;
 import org.snakeinc.snake.exception.OutOfPlayException;
 import org.snakeinc.snake.exception.SelfCollisionException;
@@ -20,7 +21,7 @@ public class Game {
         test = test != null ? test : false;
         grid = new Grid();
         basket = new Basket(grid);
-        basket.refillIfNeeded(1);
+        basket.refillIfNeeded(1, grid.getTile(GameParams.SNAKE_DEFAULT_X, GameParams.SNAKE_DEFAULT_Y));
         var random = new Random();
         if(test) {
             this.snake = new Anaconda((food, cell) -> basket.removeFoodInCell(food, cell), grid);
@@ -42,7 +43,7 @@ public class Game {
 
     public void iterate(Direction direction) throws OutOfPlayException, SelfCollisionException, MalnutritionException {
         snake.move(direction);
-        basket.refillIfNeeded(1);
+        basket.refillIfNeeded(1, getSnakeHead());
     }
 
     public Integer getSnakeSize() {
