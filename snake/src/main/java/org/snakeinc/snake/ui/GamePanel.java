@@ -79,7 +79,7 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
     public void keyPressed(KeyEvent e) {
         int state = game.getSnakeState();
         int keycode = e.getKeyCode();
-        if(state==0){
+        if(state==0 || state==1){
                 if(keycode == KeyEvent.VK_UP) keycode = KeyEvent.VK_DOWN;
                 else if(keycode == KeyEvent.VK_DOWN) keycode = KeyEvent.VK_UP;
                 else if(state==1){
