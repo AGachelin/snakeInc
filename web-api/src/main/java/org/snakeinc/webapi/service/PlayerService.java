@@ -1,23 +1,24 @@
 package org.snakeinc.webapi.service;
 
+import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.concurrent.atomic.AtomicInteger;
 
 import org.snakeinc.webapi.entity.Player;
 
 @Service
 public class PlayerService {
-    private final Map<Integer, Player> players = new HashMap<>();
-    public PlayerService() {
+    private final CrudRepository<Player, Integer> players;
+    public PlayerService(CrudRepository<Player, Integer> players) {
+        this.players = players;
     }
     public Player getPlayer(int id) {
-        return players.get(id);
+        return players.findById(id).orElse(null);
     }
     public Player createPlayer(Player player) {
-        players.put(player.getId(), player);
+        players.save(player);
         return getPlayer(player.getId());
     }
 }
