@@ -1,15 +1,16 @@
 package org.snakeinc.webapi.entity;
 
-import jakarta.persistence.Id;
-import lombok.Getter;
-
-import jakarta.persistence.Entity;
-import jakarta.validation.constraints.Min;
-import jakarta.validation.constraints.NotBlank;
-
 import java.sql.Time;
 import java.time.LocalTime;
+import java.util.Set;
 import java.util.concurrent.atomic.AtomicInteger;
+
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
+import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotBlank;
+import lombok.Getter;
 
 @Entity
 public class Player {
@@ -21,12 +22,15 @@ public class Player {
     @NotBlank(message="name is mandatory")
     private String name;
     @Getter
-    @Min(value=14, message="age sould be superior to 13")
+    @Min(value=14, message="age should be superior to 13")
     private int age;
     @Getter
     private Category category;
     @Getter
     private final Time createdAt;
+    @Getter
+    @OneToMany(mappedBy = "player")
+    private Set<Score> scores;
 
     public Player(){
         this.id = nextId.getAndIncrement();

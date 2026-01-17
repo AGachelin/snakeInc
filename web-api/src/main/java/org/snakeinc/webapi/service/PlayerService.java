@@ -3,9 +3,6 @@ package org.snakeinc.webapi.service;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Service;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import org.snakeinc.webapi.entity.Player;
 
 @Service
